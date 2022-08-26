@@ -1,23 +1,14 @@
 import React from 'react';
-// import { signInWithPopup } from 'firebase/auth';
-// import { auth, provider } from '../firebase/FirebaseConfig';
-
-const loginGoogle = () => {
-  console.log('herer');
-  // signInWithPopup(auth, provider);
-};
+import AuthFirebase from '../firebase/AuthFirebase';
 
 const Navbar = () => {
   return (
     <div>
       <nav>
         <ul>
-          <li>
-            <button onClick={loginGoogle}>Login</button>
-          </li>
-          <li>
-            <button>Logout</button>
-          </li>
+          <li>Home</li>
+          <li>Shopping List</li>
+          <AuthFirebase />
         </ul>
       </nav>
     </div>
