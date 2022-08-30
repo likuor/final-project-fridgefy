@@ -7,27 +7,19 @@ const ShowDataFromFirebase = (collectionName, setState) => {
   const [user] = useAuthState(auth);
 
   useEffect(() => {
-    const setDataFromDB = (data) => {
-      getDocs(data).then((snapshot) => {
-        setState(
-          snapshot.docs.map((doc) => {
-            return { ...doc.data() };
-          })
-        );
-      });
-    };
-
     const allDataInCollection = collection(database, collectionName);
     if (user) {
       const filterdDataByUser = query(
         allDataInCollection,
         where('userId', '==', user.uid)
       );
-      setDataFromDB(filterdDataByUser);
+      getDocs(filterdDataByUser).then((snapshot) => {
+        setState(snapshot.docs.map((doc) => doc.data()));
+      });
     } else {
-      setDataFromDB(allDataInCollection);
+      setState('You need login to see see the list');
     }
-  }, [user, collectionName, setState]);
+  }, [user, collectionName, , setState]);
 };
 
 export default ShowDataFromFirebase;
