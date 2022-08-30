@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Navbar from './pages/Navbar';
 import Home from './pages/Home';
 import ShoppingList from './pages/ShoppingList';
 import ShowDataFromFirebase from './helper/ShowDataFromFirebase';
+
 
 function App() {
   const [fridge, setFridge] = useState([]);
