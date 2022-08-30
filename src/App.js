@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import Navbar from './pages/Navbar';
 import Home from './pages/Home';
