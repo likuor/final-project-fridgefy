@@ -1,18 +1,25 @@
-import React from 'react';
-import AuthFirebase from '../firebase/AuthFirebase';
+import React from "react";
+import AuthFirebase from "../firebase/AuthFirebase";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const Navbar = () => {
   return (
-    <div>
+    <StyleNavbar>
       <nav>
-        <ul>
-          <li>Home</li>
-          <li>Shopping List</li>
-          <AuthFirebase />
-        </ul>
+        <Link to={`/`}>Home</Link>
+        <Link to={`/recipesPage/`}>Recipes page</Link>
+        <Link to={`/shoppingListPage/`}>Shopping list page</Link>
+        <AuthFirebase />
       </nav>
-    </div>
+    </StyleNavbar>
   );
 };
 
 export default Navbar;
+
+const StyleNavbar = styled.div`
+  .login_part {
+    display: flex;
+  }
+`;

@@ -1,21 +1,18 @@
-import React, { useEffect, useRef, useState, useReducer } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { database } from "../firebase/FirebaseConfig";
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  addDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
 import axios from "axios";
 import styled from "styled-components";
+import ShowDataFromFirebase from "../helper/ShowDataFromFirebase";
+import { UserDataContext } from "./UserDataContext";
 
-export default function HomeIngredientsList() {
+export default function IngredientsList() {
   const [list, setList] = useState([]);
   const [ingredients, setIngredients] = useState("");
   const [listArray, setListArray] = useState([]);
   const inputRef = useRef();
+
+  const { state } = useContext(UserDataContext);
 
   const IngredientsList = {
     get: async (ingredients) => {
@@ -34,6 +31,8 @@ export default function HomeIngredientsList() {
     userId: "",
   };
 
+  ShowDataFromFirebase("Ingredients", setList);
+
   useEffect(() => {
     const fetchData = async () => {
       const itemListApi = await IngredientsList.get(ingredients);
@@ -43,26 +42,26 @@ export default function HomeIngredientsList() {
     fetchData();
   }, [ingredients]);
 
-  useEffect(() => {
-    const itemData = collection(database, "Ingredients");
-    getDocs(itemData).then((snapShot) => {
-      setList(snapShot.docs.map((doc) => doc.data()));
-    });
-    onSnapshot(itemData, (item) => {
-      setList(item.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    });
-  }, []);
+  // useEffect(() => {
+  //   const itemData = collection(database, "Ingredients");
+  //   getDocs(itemData).then((snapShot) => {
+  //     setList(snapShot.docs.map((doc) => doc.data()));
+  //   });
+  //   onSnapshot(itemData, (item) => {
+  //     setList(item.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   });
+  // }, []);
 
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case "ADD_LIST":
-        return [...state, { id: state.id, name: action.text }];
-      case "REMOVE_ITEM":
-        return list.filter((item) => item.name !== action.name);
-      default:
-        return state;
-    }
-  };
+  // const reducer = (state, action) => {
+  //   switch (action.type) {
+  //     case "ADD_LIST":
+  //       return [...state, { id: state.id, name: action.text }];
+  //     case "REMOVE_ITEM":
+  //       return list.filter((item) => item.name !== action.name);
+  //     default:
+  //       return state;
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,34 +76,12 @@ export default function HomeIngredientsList() {
       id: "",
       image: `${data.name}.jpg`,
       name: data.name,
-      userId: "",
+      userId: state.userId,
     });
     setListArray([]);
+    state.userIngredients = list;
+    console.log("state again", state);
   };
-
-  console.log("list", list);
-
-  const StyleIngredientsContainer = styled.div`
-    .ingredientsList_container {
-      background-color: aqua;
-      position: absolute;
-      top: 6rem;
-      left: 15rem;
-      width: 10rem;
-    }
-
-    .ingredients_list {
-      position: relative:
-    }
-
-    .ingredients_list_container {
-        display: flex;
-    }
-    .ingredients_list_button {
-        margin-left: 3rem;
-        width: 2rem;
-    }
-  `;
 
   return (
     <StyleIngredientsContainer>
@@ -147,3 +124,25 @@ export default function HomeIngredientsList() {
     </StyleIngredientsContainer>
   );
 }
+
+const StyleIngredientsContainer = styled.div`
+    .ingredientsList_container {
+      background-color: aqua;
+      position: absolute;
+      top: 6rem;
+      left: 15rem;
+      width: 10rem;
+    }
+
+    .ingredients_list {
+      position: relative:
+    }
+
+    .ingredients_list_container {
+        display: flex;
+    }
+    .ingredients_list_button {
+        margin-left: 3rem;
+        width: 2rem;
+    }
+  `;
