@@ -1,16 +1,25 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { database } from "../firebase/FirebaseConfig";
-import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  deleteDoc,
+  doc,
+  getDocs,
+  onSnapshot,
+} from "firebase/firestore";
 import axios from "axios";
 import styled from "styled-components";
 import ShowDataFromFirebase from "../helper/ShowDataFromFirebase";
 import { UserDataContext } from "./UserDataContext";
+import { database, auth } from "../firebase/FirebaseConfig";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function IngredientsList() {
   const [list, setList] = useState([]);
   const [ingredients, setIngredients] = useState("");
-  const [listArray, setListArray] = useState([]);
+  const [searchIngredientsArray, setSearchIngredientsArray] = useState([]);
   const inputRef = useRef();
+  const [newArray, setNewArray] = useState([]);
 
   const { state } = useContext(UserDataContext);
 
@@ -24,6 +33,8 @@ export default function IngredientsList() {
     },
   };
 
+  const [user] = useAuthState(auth);
+
   const Ingredients = {
     id: "",
     image: "",
@@ -31,16 +42,25 @@ export default function IngredientsList() {
     userId: "",
   };
 
-  ShowDataFromFirebase("Ingredients", setList);
+  ShowDataFromFirebase("Ingredients", setNewArray);
 
   useEffect(() => {
     const fetchData = async () => {
       const itemListApi = await IngredientsList.get(ingredients);
-      console.log("check", itemListApi.data);
-      setListArray(itemListApi.data);
+      setSearchIngredientsArray(itemListApi.data);
     };
     fetchData();
   }, [ingredients]);
+
+  // useEffect(() => {
+  //   const itemData = collection(database, "Ingredients");
+  //   getDocs(itemData).then((snapShot) => {
+  //     setList(snapShot.docs.map((doc) => doc.data()));
+  //   });
+  //   onSnapshot(itemData, (item) => {
+  //     setList(item.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   });
+  // }, [listArray]);
 
   // useEffect(() => {
   //   const itemData = collection(database, "Ingredients");
@@ -72,15 +92,59 @@ export default function IngredientsList() {
   const onClickIngredients = async (data) => {
     Ingredients.name = inputRef.current;
     const nameCollection = collection(database, "Ingredients");
-    const documentIngredients = await addDoc(nameCollection, {
+    const newIngredient = {
       id: "",
       image: `${data.name}.jpg`,
       name: data.name,
-      userId: state.userId,
-    });
-    setListArray([]);
+      userId: user.uid,
+    };
+    const documentIngredients = await addDoc(nameCollection, newIngredient);
+    setSearchIngredientsArray([]);
     state.userIngredients = list;
-    console.log("state again", state);
+    setNewArray([
+      ...newArray,
+      { ...newIngredient, id: documentIngredients.id },
+    ]);
+  };
+
+  const userIngredientsDataList = (array) => {
+    if (user) {
+      {
+        return array.map((item) => {
+          return (
+            <div className="ingredients_list_container">
+              <h1>{item.name}</h1>
+              <button
+                className="ingredients_list_button"
+                onClick={async () => {
+                  await deleteDoc(doc(database, "Ingredients", item.id));
+                  const filteredArray = newArray.filter(
+                    (itemList) => itemList.id !== item.id
+                  );
+                  setNewArray(filteredArray);
+                }}
+              >
+                X
+              </button>
+            </div>
+          );
+        });
+      }
+    }
+  };
+
+  const userFavoriteIngredientsList = (array) => {
+    if (user) {
+      {
+        return array.map((data) => {
+          return (
+            <div value={data.name} onClick={() => onClickIngredients(data)}>
+              {data.name}
+            </div>
+          );
+        });
+      }
+    }
   };
 
   return (
@@ -99,26 +163,10 @@ export default function IngredientsList() {
           <button>Add</button>
         </form>
         <div id="ingredientsList" className="ingredientsList_container">
-          {listArray.map((data) => (
-            <div value={data.name} onClick={() => onClickIngredients(data)}>
-              {data.name}
-            </div>
-          ))}
+          {userFavoriteIngredientsList(searchIngredientsArray)}
         </div>
         <div className="ingredients_list">
-          {list.map((item) => (
-            <div className="ingredients_list_container">
-              <h1>{item.name}</h1>
-              <button
-                className="ingredients_list_button"
-                onClick={async () =>
-                  await deleteDoc(doc(database, "Ingredients", item.id))
-                }
-              >
-                X
-              </button>
-            </div>
-          ))}
+          {userIngredientsDataList(newArray)}
         </div>
       </div>
     </StyleIngredientsContainer>
