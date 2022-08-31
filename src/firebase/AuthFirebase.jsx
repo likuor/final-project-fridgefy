@@ -14,16 +14,16 @@ const AuthFirebase = () => {
     <>
       {user ? (
         <>
-          <li>{user.displayName}</li>
-          <li>
+          <div>Hello, {user.displayName} !</div>
+          <div>
             <button onClick={() => auth.signOut()}>Logout</button>
-          </li>
+          </div>
         </>
       ) : (
         <>
-          <li>
+          <div>
             <button onClick={signInGoogle}>Login</button>
-          </li>
+          </div>
         </>
       )}
     </>

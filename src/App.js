@@ -4,6 +4,7 @@ import Navbar from './pages/Navbar';
 import Home from './pages/Home';
 import ShoppingList from './pages/ShoppingList';
 import ShowDataFromFirebase from './helper/ShowDataFromFirebase';
+import AddDataToFirebase from './helper/AddDataToFirebase';
 
 function App() {
   const [fridge, setFridge] = useState([]);
@@ -18,6 +19,7 @@ function App() {
       <Navbar />
       <Home />
       <ShoppingList />
+      <AddDataToFirebase />
     </div>
   );
 }
