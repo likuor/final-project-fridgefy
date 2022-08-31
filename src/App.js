@@ -14,11 +14,21 @@ function App() {
   ShowDataFromFirebase('recipe', setRecipe);
   console.log('fridge', fridge);
   console.log('recipe', recipe);
+
+  const fridgeList = {
+    name: fridge.name,
+    id: fridge.id,
+    userId: fridge.userId,
+    image: fridge.image,    
+  }
+  console.log("test",fridgeList);
+
+
   return (
     <div>
       <Navbar />
       <Home />
-      <ShoppingList />
+      <ShoppingList setFridge={setFridge} fridge={fridge} setRecipe={setRecipe} recipe={recipe}/>
       <AddDataToFirebase />
     </div>
   );

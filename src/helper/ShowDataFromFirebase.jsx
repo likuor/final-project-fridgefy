@@ -17,7 +17,7 @@ const ShowDataFromFirebase = (collectionName, setState) => {
         setState(snapshot.docs.map((doc) => doc.data()));
       });
     } else {
-      setState('You need login to see see the list');
+      setState([]);
     }
   }, [user, collectionName, , setState]);
 };
