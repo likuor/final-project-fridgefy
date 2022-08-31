@@ -1,7 +1,12 @@
-import React from 'react';
+import React from "react";
+import HomeIngredientsList from "./HomeIngredientsList";
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      <HomeIngredientsList />
+    </div>
+  );
 };
 
 export default Home;
