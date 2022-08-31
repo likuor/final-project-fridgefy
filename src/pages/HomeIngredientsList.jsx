@@ -122,15 +122,19 @@ export default function HomeIngredientsList() {
           <button>Add</button>
         </form>
         <div id='ingredientsList' className='ingredientsList_container'>
-          {listArray.map((data) => (
-            <div value={data.name} onClick={() => onClickIngredients(data)}>
+          {listArray.map((data, index) => (
+            <div
+              key={index}
+              value={data.name}
+              onClick={() => onClickIngredients(data)}
+            >
               {data.name}
             </div>
           ))}
         </div>
         <div className='ingredients_list'>
-          {list.map((item) => (
-            <div className='ingredients_list_container'>
+          {list.map((item, index) => (
+            <div className='ingredients_list_container' key={index}>
               <h1>{item.name}</h1>
               <button
                 className='ingredients_list_button'

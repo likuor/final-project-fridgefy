@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import {
   collection,
   addDoc,
@@ -6,17 +6,17 @@ import {
   doc,
   getDocs,
   onSnapshot,
-} from "firebase/firestore";
-import axios from "axios";
-import styled from "styled-components";
-import ShowDataFromFirebase from "../helper/ShowDataFromFirebase";
-import { UserDataContext } from "./UserDataContext";
-import { database, auth } from "../firebase/FirebaseConfig";
-import { useAuthState } from "react-firebase-hooks/auth";
+} from 'firebase/firestore';
+import axios from 'axios';
+import styled from 'styled-components';
+import ShowDataFromFirebase from '../helper/ShowDataFromFirebase';
+import { UserDataContext } from './UserDataContext';
+import { database, auth } from '../firebase/FirebaseConfig';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 export default function IngredientsList() {
   const [list, setList] = useState([]);
-  const [ingredients, setIngredients] = useState("");
+  const [ingredients, setIngredients] = useState('');
   const [searchIngredientsArray, setSearchIngredientsArray] = useState([]);
   const inputRef = useRef();
   const [newArray, setNewArray] = useState([]);
@@ -36,13 +36,13 @@ export default function IngredientsList() {
   const [user] = useAuthState(auth);
 
   const Ingredients = {
-    id: "",
-    image: "",
-    name: "",
-    userId: "",
+    id: '',
+    image: '',
+    name: '',
+    userId: '',
   };
 
-  ShowDataFromFirebase("Ingredients", setNewArray);
+  ShowDataFromFirebase('Ingredients', setNewArray);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,9 +91,9 @@ export default function IngredientsList() {
 
   const onClickIngredients = async (data) => {
     Ingredients.name = inputRef.current;
-    const nameCollection = collection(database, "Ingredients");
+    const nameCollection = collection(database, 'Ingredients');
     const newIngredient = {
-      id: "",
+      id: '',
       image: `${data.name}.jpg`,
       name: data.name,
       userId: user.uid,
@@ -110,14 +110,14 @@ export default function IngredientsList() {
   const userIngredientsDataList = (array) => {
     if (user) {
       {
-        return array.map((item) => {
+        return array.map((item, index) => {
           return (
-            <div className="ingredients_list_container">
+            <div className='ingredients_list_container' key={index}>
               <h1>{item.name}</h1>
               <button
-                className="ingredients_list_button"
+                className='ingredients_list_button'
                 onClick={async () => {
-                  await deleteDoc(doc(database, "Ingredients", item.id));
+                  await deleteDoc(doc(database, 'Ingredients', item.id));
                   const filteredArray = newArray.filter(
                     (itemList) => itemList.id !== item.id
                   );
@@ -136,9 +136,13 @@ export default function IngredientsList() {
   const userFavoriteIngredientsList = (array) => {
     if (user) {
       {
-        return array.map((data) => {
+        return array.map((data, index) => {
           return (
-            <div value={data.name} onClick={() => onClickIngredients(data)}>
+            <div
+              value={data.name}
+              onClick={() => onClickIngredients(data)}
+              key={index}
+            >
               {data.name}
             </div>
           );
@@ -153,19 +157,19 @@ export default function IngredientsList() {
         <h2>My Fridge</h2>
         <form onSubmit={handleSubmit}>
           <input
-            name="name"
-            type="text"
-            placeholder="Name"
-            list="ingredientsList"
+            name='name'
+            type='text'
+            placeholder='Name'
+            list='ingredientsList'
             ref={inputRef}
           />
           <button>Search</button>
           <button>Add</button>
         </form>
-        <div id="ingredientsList" className="ingredientsList_container">
+        <div id='ingredientsList' className='ingredientsList_container'>
           {userFavoriteIngredientsList(searchIngredientsArray)}
         </div>
-        <div className="ingredients_list">
+        <div className='ingredients_list'>
           {userIngredientsDataList(newArray)}
         </div>
       </div>
