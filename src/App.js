@@ -16,7 +16,7 @@ function App() {
   console.log('recipe', recipe);
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <Home />
       <ShoppingList />
       <AddDataToFirebase />
