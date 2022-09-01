@@ -1,11 +1,12 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import HeroPage from './HeroPage';
-import IngredientsDataProvider from './IngredientsDataContext';
-import RecipesDataProvider from './RecipesDataContext';
-import RecipesPage from './RecipesPage';
-import ShoppingListPage from './ShoppingListPage';
-import UserDataProvider from './UserDataContext';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HeroPage from "./HeroPage";
+import IngredientsDataProvider from "./IngredientsDataContext";
+import Navbar from "./Navbar";
+import RecipesDataProvider from "./RecipesDataContext";
+import RecipesPage from "./RecipesPage";
+import ShoppingListPage from "./ShoppingListPage";
+import UserDataProvider from "./UserDataContext";
 const Home = () => {
   return (
     <div>

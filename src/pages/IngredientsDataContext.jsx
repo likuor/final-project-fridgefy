@@ -1,13 +1,34 @@
 import React, { createContext, useReducer } from "react";
+import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { database, auth } from "../firebase/FirebaseConfig";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export const IngredientsDataContext = createContext();
 
-const reducer = (state, action) => {
+const reducer = async (state, action) => {
+  const [user] = useAuthState(auth);
   switch (action.type) {
-    case "deleteIngredients":
+    case "addIngredients":
+      const ingredients = action.payload;
       console.log("check state", state.array);
       console.log("check action", action);
-      return;
+      console.log("check payload", ingredients);
+
+    // const nameCollection = collection(database, "fridge");
+    // const newIngredient = {
+    //   image: `${ingredients.name}.jpg`,
+    //   name: ingredients.name,
+    //   userId: user.uid,
+    // };
+
+    // const documentIngredients = await addDoc(nameCollection, newIngredient);
+    // console.log("doc added", documentIngredients);
+
+    // return [
+    //   ...state.array,
+    //   { ...newIngredient, dbId: documentIngredients.id },
+    // ];
+
     case "decrement":
       return { count: state.count - action.payload };
     case "reset":
@@ -19,9 +40,6 @@ const reducer = (state, action) => {
 
 const IngredientsDataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
-    name: "",
-    image: "",
-    userId: "",
     array: [],
   });
 
