@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HeroPage from "./HeroPage";
 import RecipesPage from "./RecipesPage";
 import ShoppingListPage from "./ShoppingListPage";
+import HomeSearch from './HomeSearch';
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
           <Route path={`/shoppingListPage`} element={<ShoppingListPage />} />
         </Routes>
       </BrowserRouter>
+      <HomeSearch/>
     </div>
   );
 };
