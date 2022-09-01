@@ -6,17 +6,16 @@ import ShowDataFromFirebase from '../helper/ShowDataFromFirebase';
 import { database, auth } from '../firebase/FirebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { IngredientsDataContext } from './IngredientsDataContext';
-import AddDataToFirebase from '../helper/AddDataToFirebase';
 import DeleteDataFromFirebase from '../helper/DeleteDataFromFirebase';
 
 export default function IngredientsList() {
   const inputRef = useRef(null);
-  const { dispatch } = useContext(IngredientsDataContext);
   const { state } = useContext(IngredientsDataContext);
   const [inputValue, setInputValue] = useState('');
   const [searchIngredientsArray, setSearchIngredientsArray] = useState([]);
   const [userIngredientsArray, setUserIngredientsArray] = useState([]);
   const [user] = useAuthState(auth);
+  const { dispatch } = useContext(IngredientsDataContext);
 
   const IngredientsList = {
     get: async (ingredients) => {
@@ -31,11 +30,11 @@ export default function IngredientsList() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // const itemListApi = await IngredientsList.get(inputValue);
-      const itemListApi = [
-        { name: 'test1', image: 'image' },
-        { name: 'test2', image: 'image' },
-      ];
+      const itemListApi = await IngredientsList.get(inputValue);
+      // const itemListApi = [
+      //   { name: 'test1', image: 'image' },
+      //   { name: 'test2', image: 'image' },
+      // ];
       setSearchIngredientsArray(itemListApi);
     };
     fetchData();
@@ -108,6 +107,10 @@ export default function IngredientsList() {
               //     },
               //   ]);
               // }}
+              // onClick={() => onClickIngredients(data)}
+              // onClick={() =>
+              //   dispatch({ type: "addIngredients", payload: data.name })
+              // }
               key={index}
             >
               {data.name}

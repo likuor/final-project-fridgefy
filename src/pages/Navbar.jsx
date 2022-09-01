@@ -8,8 +8,8 @@ export default function Navbar() {
     <StyleNavbar>
       <nav>
         <Link to={`/`}>Home</Link>
-        <Link to={`/recipesPage/`}>Recipes page</Link>
-        <Link to={`/shoppingListPage/`}>Shopping list page</Link>
+        {/* <Link to={`/recipesPage/`}>Recipes page</Link>
+        <Link to={`/shoppingListPage/`}>Shopping list page</Link> */}
         <AuthFirebase />
       </nav>
     </StyleNavbar>
