@@ -1,25 +1,7 @@
 import React from 'react';
-import { collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
-import { database, auth } from '../firebase/FirebaseConfig';
-import { useAuthState } from 'react-firebase-hooks/auth';
-
-const cityRef = doc(database, 'fridge', 'BJ');
-
-const DeleteDataFromFirebase = () => {
-  const [user] = useAuthState(auth);
-  console.log(user);
+import { doc, deleteDoc } from 'firebase/firestore';
+import { database } from '../firebase/FirebaseConfig';
+const DeleteDataFromFirebase = (collectionName, item) => {
+  deleteDoc(doc(database, collectionName, item.dbId));
 };
-
-return (
-  <>
-    <button
-      onClick={() => {
-        DeleteDataFromFirebase();
-      }}
-    >
-      delete
-    </button>
-  </>
-);
-
 export default DeleteDataFromFirebase;
