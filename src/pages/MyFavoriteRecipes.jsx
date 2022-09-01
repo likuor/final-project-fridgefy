@@ -1,17 +1,29 @@
 import React from "react";
 
-export default function MyFavoriteRecipes() {
-  const fakeArray = [{ name: "apple" }, { name: "lemon" }, { name: "melon" }];
+export default function MyFavoriteRecipes(props) {
+  console.log("fridge", props.fridge);
+  console.log("recipe", props.recipe);
 
-  const fakeArrayCreate = (array) => {
-    return array.map((data) => {
-      return <div>{data.name}</div>;
-    });
-  };
   return (
     <div>
-      <div>Favorite recipes</div>
-      {fakeArrayCreate(fakeArray)}
+      <button>Favorite recipes</button>
+      <div>
+        {props.recipe.map((data, index) => {
+            return (
+            <div key={index}>
+              <div className="favorite_recipes">
+                <div>{data.name}</div>
+                <button>X</button>
+              </div>
+              <div className="favorite_recipes">
+              <div>{data.image}</div>
+              <span>{data.information}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
+

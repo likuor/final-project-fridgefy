@@ -14,7 +14,6 @@ const Home = () => {
         <RecipesDataProvider>
           <IngredientsDataProvider>
             <BrowserRouter>
-              <Navbar />
               <Routes>
                 <Route path={`/`} element={<HeroPage />} />
                 <Route path={`/recipesPage`} element={<RecipesPage />} />

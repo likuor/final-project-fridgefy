@@ -1,26 +1,8 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const ShoppingList = () => {
-  // const RecipesList = {
-  //   get: async (ingredients) => {
-  //     const response = await axios.get(
-  //       // `https://api.spoonacular.com/food/ingredients/search?apiKey=dcaaa6665b2243a180865cbe5f7ac756&query=${inputValue}&number=10`
-  //       `https://api.spoonacular.com/recipes/findByIngredients?apiKey=e93d822dc64f4de7b1be57a1da836325&number=5`
-  //     );
-  //     console.log("check recipes", response);
-  //     return response.data.results;
-  //   },
-  // };
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const itemListApi = await RecipesList.get();
-  //     // setSearchIngredientsArray(itemListApi);
-  //   };
-  //   fetchData();
-  // }, []);
-
   const fakeArray1 = ["orange", "apple", "melon"];
 
   const fakeArray2 = ["orange", "apple"];
@@ -33,8 +15,10 @@ const ShoppingList = () => {
   return (
     <div class="sides_container" id="left-bar">
       <div>
-        <button>My Recipes</button>
-        <button>Shopping List</button>
+        {/* <button>My Recipes</button>
+        <button>Shopping List</button> */}
+        <Link to={`/recipesPage/`}>Recipes page</Link>
+        <Link to={`/shoppingListPage/`}>Shopping list page</Link>
       </div>
       <div>
         <ul>

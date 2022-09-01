@@ -6,28 +6,27 @@ import ShowDataFromFirebase from "../helper/ShowDataFromFirebase";
 import { database, auth } from "../firebase/FirebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { IngredientsDataContext } from "./IngredientsDataContext";
+import DeleteDataFromFirebase from "../helper/DeleteDataFromFirebase";
 
 export default function IngredientsList() {
   const inputRef = useRef(null);
-  const { dispatch } = useContext(IngredientsDataContext);
   const { state } = useContext(IngredientsDataContext);
   const [inputValue, setInputValue] = useState("");
   const [searchIngredientsArray, setSearchIngredientsArray] = useState([]);
   const [userIngredientsArray, setUserIngredientsArray] = useState([]);
-  // const myApiKey = process.env.REACT_APP_API_KEY;
+  const [user] = useAuthState(auth);
+  const { dispatch } = useContext(IngredientsDataContext);
 
   const IngredientsList = {
     get: async (ingredients) => {
       const response = await axios.get(
-        `https://api.spoonacular.com/food/ingredients/search?apiKey=&query=${inputValue}&number=10`
+        `https://api.spoonacular.com/food/ingredients/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${inputValue}&number=10`
       );
       return response.data.results;
     },
   };
 
-  const [user] = useAuthState(auth);
-
-  ShowDataFromFirebase("Ingredients", setUserIngredientsArray);
+  ShowDataFromFirebase("fridge", setUserIngredientsArray);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +42,7 @@ export default function IngredientsList() {
   };
 
   const onClickIngredients = async (data) => {
-    const nameCollection = collection(database, "Ingredients");
+    const nameCollection = collection(database, "fridge");
     const newIngredient = {
       image: `${data.name}.jpg`,
       name: data.name,
@@ -59,30 +58,37 @@ export default function IngredientsList() {
     ]);
   };
 
-  const deleteItem = async (item) => {
-    console.log("item", item);
-    console.log("check item", userIngredientsArray);
-    try {
-      await deleteDoc(doc(database, "Ingredients", item.dbId));
-      const filteredArray = userIngredientsArray.filter(
-        (itemList) => itemList.dbId !== item.dbId
-      );
-      setUserIngredientsArray(filteredArray);
-    } catch (err) {
-      console.log("err", err);
-    }
-  };
+  // const deleteItem = async (item) => {
+  //   console.log('item', item);
+  //   console.log('check item', userIngredientsArray);
+  //   try {
+  //     await deleteDoc(doc(database, 'Ingredients', item.dbId));
+  //     const filteredArray = userIngredientsArray.filter(
+  //       (itemList) => itemList.dbId !== item.dbId
+  //     );
+  //     setUserIngredientsArray(filteredArray);
+  //   } catch (err) {
+  //     console.log('err', err);
+  //   }
+  // };
 
   const userIngredientsDataList = (array) => {
     if (user) {
       {
-        return array.map((item) => {
+        return array.map((item, index) => {
           return (
-            <div className="ingredients_list_container">
+            <div className="ingredients_list_container" key={index}>
               <h2>{item.name}</h2>
               <button
                 className="ingredients_list_button"
-                onClick={() => deleteItem(item)}
+                // onClick={() => deleteItem(item)}
+                onClick={() => {
+                  DeleteDataFromFirebase("fridge", item);
+                  const filteredArray = userIngredientsArray.filter(
+                    (itemList) => itemList.dbId !== item.dbId
+                  );
+                  setUserIngredientsArray(filteredArray);
+                }}
               >
                 X
               </button>
@@ -96,9 +102,16 @@ export default function IngredientsList() {
   const userFavoriteIngredientsList = (array) => {
     if (user) {
       {
-        return array.map((data) => {
+        return array.map((data, index) => {
           return (
-            <div value={data.name} onClick={() => onClickIngredients(data)}>
+            <div
+              value={data.name}
+              // onClick={() => onClickIngredients(data)}
+              onClick={() =>
+                dispatch({ type: "addIngredients", payload: data.name })
+              }
+              key={index}
+            >
               {data.name}
             </div>
           );
@@ -127,23 +140,23 @@ export default function IngredientsList() {
 }
 
 const StyleIngredientsContainer = styled.div`
-    .ingredientsList_container {
-      background-color: aqua;
-      position: absolute;
-      top: 6rem;
-      left: 15rem;
-      width: 10rem;
-    }
+  .ingredientsList_container {
+    background-color: aqua;
+    position: absolute;
+    top: 6rem;
+    left: 15rem;
+    width: 10rem;
+  }
 
-    .ingredients_list {
-      position: relative:
-    }
+  .ingredients_list {
+    position: relative;
+  }
 
-    .ingredients_list_container {
-        display: flex;
-    }
-    .ingredients_list_button {
-        margin-left: 3rem;
-        width: 2rem;
-    }
-  `;
+  .ingredients_list_container {
+    display: flex;
+  }
+  .ingredients_list_button {
+    margin-left: 3rem;
+    width: 2rem;
+  }
+`;
