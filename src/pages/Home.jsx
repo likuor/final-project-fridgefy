@@ -11,11 +11,11 @@ const Home = () => {
       <BrowserRouter>
         <Routes>
           <Route path={`/`} element={<HeroPage />} />
-          <Route path={`/searc`} element={ <HomeSearch/>} />
           <Route path={`/recipesPage`} element={<RecipesPage />} />
           <Route path={`/shoppingListPage`} element={<ShoppingListPage />} />
         </Routes>
       </BrowserRouter>
+      <HomeSearch/>
     </div>
   );
 };
