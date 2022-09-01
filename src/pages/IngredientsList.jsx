@@ -14,6 +14,7 @@ export default function IngredientsList() {
   const [inputValue, setInputValue] = useState('');
   const [searchIngredientsArray, setSearchIngredientsArray] = useState([]);
   const [userIngredientsArray, setUserIngredientsArray] = useState([]);
+  const [user] = useAuthState(auth);
 
   const IngredientsList = {
     get: async (ingredients) => {
@@ -23,8 +24,6 @@ export default function IngredientsList() {
       return response.data.results;
     },
   };
-
-  const [user] = useAuthState(auth);
 
   ShowDataFromFirebase('Ingredients', setUserIngredientsArray);
 
