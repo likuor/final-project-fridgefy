@@ -31,7 +31,11 @@ export default function IngredientsList() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const itemListApi = await IngredientsList.get(inputValue);
+      // const itemListApi = await IngredientsList.get(inputValue);
+      const itemListApi = [
+        { name: 'test1', image: 'image' },
+        { name: 'test2', image: 'image' },
+      ];
       setSearchIngredientsArray(itemListApi);
     };
     fetchData();
@@ -58,20 +62,7 @@ export default function IngredientsList() {
       { ...newIngredient, dbId: documentIngredients.id },
     ]);
   };
-
-  // const deleteItem = async (item) => {
-  //   console.log('item', item);
-  //   console.log('check item', userIngredientsArray);
-  //   try {
-  //     await deleteDoc(doc(database, 'Ingredients', item.dbId));
-  //     const filteredArray = userIngredientsArray.filter(
-  //       (itemList) => itemList.dbId !== item.dbId
-  //     );
-  //     setUserIngredientsArray(filteredArray);
-  //   } catch (err) {
-  //     console.log('err', err);
-  //   }
-  // };
+  console.log('here', userIngredientsArray);
 
   const userIngredientsDataList = (array) => {
     if (user) {
@@ -108,6 +99,15 @@ export default function IngredientsList() {
             <div
               value={data.name}
               onClick={() => onClickIngredients(data)}
+              // onClick={() => {
+              //   setSearchIngredientsArray([]);
+              //   setUserIngredientsArray([
+              //     ...userIngredientsArray,
+              //     {
+              //       ...AddDataToFirebase('fridge', user.uid, data),
+              //     },
+              //   ]);
+              // }}
               key={index}
             >
               {data.name}
