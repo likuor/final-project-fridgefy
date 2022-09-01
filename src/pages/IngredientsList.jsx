@@ -14,11 +14,12 @@ export default function IngredientsList() {
   const [inputValue, setInputValue] = useState("");
   const [searchIngredientsArray, setSearchIngredientsArray] = useState([]);
   const [userIngredientsArray, setUserIngredientsArray] = useState([]);
+  // const myApiKey = process.env.REACT_APP_API_KEY;
 
   const IngredientsList = {
     get: async (ingredients) => {
       const response = await axios.get(
-        `https://api.spoonacular.com/food/ingredients/search?apiKey=e93d822dc64f4de7b1be57a1da836325&query=${inputValue}&number=10`
+        `https://api.spoonacular.com/food/ingredients/search?apiKey=&query=${inputValue}&number=10`
       );
       return response.data.results;
     },
