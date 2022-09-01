@@ -1,3 +1,4 @@
+import React from 'react';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, provider } from './FirebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -13,19 +14,20 @@ const AuthFirebase = () => {
     <>
       {user ? (
         <>
-          <li>{user.displayName}</li>
-          <li>
+          <div>Hello, {user.displayName} !</div>
+          <div>
             <button onClick={() => auth.signOut()}>Logout</button>
-          </li>
+          </div>
         </>
       ) : (
         <>
-          <li>
+          <div>
             <button onClick={signInGoogle}>Login</button>
-          </li>
+          </div>
         </>
       )}
     </>
+
   );
 };
 
