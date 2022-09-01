@@ -28,6 +28,7 @@ export default function IngredientsList() {
 
   ShowDataFromFirebase("Ingredients", setUserIngredientsArray);
 
+
   useEffect(() => {
     const fetchData = async () => {
       const itemListApi = await IngredientsList.get(inputValue);
@@ -44,6 +45,7 @@ export default function IngredientsList() {
   const onClickIngredients = async (data) => {
     const nameCollection = collection(database, "Ingredients");
     const newIngredient = {
+
       image: `${data.name}.jpg`,
       name: data.name,
       userId: user.uid,
@@ -75,7 +77,7 @@ export default function IngredientsList() {
   const userIngredientsDataList = (array) => {
     if (user) {
       {
-        return array.map((item) => {
+        return array.map((item, index) => {
           return (
             <div className="ingredients_list_container">
               <h2>{item.name}</h2>
@@ -95,9 +97,13 @@ export default function IngredientsList() {
   const userFavoriteIngredientsList = (array) => {
     if (user) {
       {
-        return array.map((data) => {
+        return array.map((data, index) => {
           return (
-            <div value={data.name} onClick={() => onClickIngredients(data)}>
+            <div
+              value={data.name}
+              onClick={() => onClickIngredients(data)}
+              key={index}
+            >
               {data.name}
             </div>
           );
