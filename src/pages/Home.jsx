@@ -6,27 +6,19 @@ import Navbar from "./Navbar";
 import RecipesDataProvider from "./RecipesDataContext";
 import RecipesPage from "./RecipesPage";
 import ShoppingListPage from "./ShoppingListPage";
-import UserDataProvider from "./UserDataContext";
+import HomeSearch from './HomeSearch';
+
 const Home = () => {
   return (
     <div>
-      <UserDataProvider>
-        <RecipesDataProvider>
-          <IngredientsDataProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path={`/`} element={<HeroPage />} />
-                <Route path={`/recipesPage`} element={<RecipesPage />} />
-                <Route
-                  path={`/shoppingListPage`}
-                  element={<ShoppingListPage />}
-                />
-              </Routes>
-            </BrowserRouter>
-          </IngredientsDataProvider>
-        </RecipesDataProvider>
-      </UserDataProvider>
-
+      <BrowserRouter>
+        <Routes>
+          <Route path={`/`} element={<HeroPage />} />
+          <Route path={`/recipesPage`} element={<RecipesPage />} />
+          <Route path={`/shoppingListPage`} element={<ShoppingListPage />} />
+        </Routes>
+      </BrowserRouter>
+      <HomeSearch/>
     </div>
   );
 };
