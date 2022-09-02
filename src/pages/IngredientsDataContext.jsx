@@ -1,50 +1,69 @@
-import React, { createContext, useReducer } from "react";
-import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import React, { createContext, useState } from "react";
+import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { database, auth } from "../firebase/FirebaseConfig";
+import DeleteDataFromFirebase from "../helper/DeleteDataFromFirebase";
+import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export const IngredientsDataContext = createContext();
 
-const reducer = async (state, action) => {
-  const [user] = useAuthState(auth);
-  switch (action.type) {
-    case "addIngredients":
-      const ingredients = action.payload;
-      console.log("check state", state.array);
-      console.log("check action", action);
-      console.log("check payload", ingredients);
-
-    // const nameCollection = collection(database, "fridge");
-    // const newIngredient = {
-    //   image: `${ingredients.name}.jpg`,
-    //   name: ingredients.name,
-    //   userId: user.uid,
-    // };
-
-    // const documentIngredients = await addDoc(nameCollection, newIngredient);
-    // console.log("doc added", documentIngredients);
-
-    // return [
-    //   ...state.array,
-    //   { ...newIngredient, dbId: documentIngredients.id },
-    // ];
-
-    case "decrement":
-      return { count: state.count - action.payload };
-    case "reset":
-      return { count: 0 };
-    default:
-      return state;
-  }
-};
-
 const IngredientsDataProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    array: [],
-  });
+  const [userIngredientsList, setUserIngredientsList] = useState([]);
+  const [user] = useAuthState(auth);
+
+  const loadUserIngredients = async (user) => {
+    if (user) {
+      const allDataInCollection = collection(database, "fridge");
+      const filterdDataByUser = query(
+        allDataInCollection,
+        where("userId", "==", user.uid)
+      );
+      const snapshot = await getDocs(filterdDataByUser);
+      const data = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        dbId: doc.id,
+      }));
+      setUserIngredientsList(data);
+    } else {
+      setUserIngredientsList([]);
+    }
+  };
+
+  const addUserIngredient = async (data) => {
+    const nameCollection = collection(database, "fridge");
+    const newIngredient = {
+      image: `${data.name}.jpg`,
+      name: data.name,
+      userId: user.uid,
+    };
+    const documentIngredients = await addDoc(nameCollection, newIngredient);
+    setUserIngredientsList([
+      ...userIngredientsList,
+      { ...newIngredient, dbId: documentIngredients.id },
+    ]);
+  };
+
+  const removeUserIngredient = async (data) => {
+    await DeleteDataFromFirebase("fridge", data);
+    const filteredArray = userIngredientsList.filter((itemList) => {
+      return itemList.dbId !== data.dbId;
+    });
+    setUserIngredientsList(filteredArray);
+  };
+
+  useEffect(() => {
+    loadUserIngredients(user);
+  }, [user]);
 
   return (
-    <IngredientsDataContext.Provider value={{ state, dispatch }}>
+    <IngredientsDataContext.Provider
+      value={{
+        userIngredientsList,
+        loadUserIngredients,
+        addUserIngredient,
+        removeUserIngredient,
+      }}
+    >
       {children}
     </IngredientsDataContext.Provider>
   );
