@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
-import axios from "axios";
-import styled from "styled-components";
-import { IngredientsDataContext } from "./IngredientsDataContext";
-import UserIngredientItem from "./UserIngredientItem";
+import React, { useEffect, useRef, useState, useContext } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import { IngredientsDataContext } from './IngredientsDataContext';
+import UserIngredientItem from './UserIngredientItem';
 
 export default function IngredientsList() {
   const inputRef = useRef(null);
@@ -10,7 +10,7 @@ export default function IngredientsList() {
   const { userIngredientsList, addUserIngredient } = useContext(
     IngredientsDataContext
   );
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const [searchIngredientsArray, setSearchIngredientsArray] = useState([]);
 
   const IngredientsList = {
@@ -68,13 +68,13 @@ export default function IngredientsList() {
       <div>
         <h2>My Fridge</h2>
         <form onSubmit={handleSubmit}>
-          <input name="name" type="text" placeholder="Name" ref={inputRef} />
+          <input name='name' type='text' placeholder='Name' ref={inputRef} />
           <button>Search</button>
         </form>
-        <div className="ingredientsList_container">
+        <div className='ingredientsList_container'>
           {userFavoriteIngredientsList(searchIngredientsArray)}
         </div>
-        <div className="ingredients_list">
+        <div className='ingredients_list'>
           {userIngredientsDataList(userIngredientsList)}
         </div>
       </div>

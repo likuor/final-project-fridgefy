@@ -9,10 +9,9 @@ const ShoppingList = () => {
   const arrayDifference = fakeArray1.filter(
     (item) => !fakeArray2.includes(item)
   );
-  console.log('check array', arrayDifference);
 
   return (
-    <div class='sides_container' id='left-bar'>
+    <div className='sides_container' id='left-bar'>
       <div>
         {/* <button>My Recipes</button>
         <button>Shopping List</button> */}
