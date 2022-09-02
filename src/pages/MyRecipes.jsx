@@ -1,13 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import ShowDataFromFirebase from '../helper/ShowDataFromFirebase';
+import DeleteDataFromFirebase from '../helper/DeleteDataFromFirebase';
+import { useEffect, useState } from 'react';
 
 export default function MyRecipes(props) {
   // console.log("fridge", props.fridge);
   // console.log("recipe", props.recipe);
 
-  // ShowDataFromFirebase("fridge", props.setFridge);
-  // ShowDataFromFirebase("recipe", props.setRecipe);
+  ShowDataFromFirebase("fridge", props.setFridge);
+  ShowDataFromFirebase("recipe", props.setRecipe);
+
 
   return (
     <StyleLeftBar>
@@ -30,7 +34,11 @@ export default function MyRecipes(props) {
                       {data.name}
                       {data.image}
                     </li>
-                    <button>X</button>
+                    <button 
+                    onClick={() => {
+                      DeleteDataFromFirebase('recipe', data); 
+                    }}
+                    >X</button>
                   </div>
                 );
               })}

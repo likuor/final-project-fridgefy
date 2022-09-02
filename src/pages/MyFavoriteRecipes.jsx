@@ -1,4 +1,5 @@
 import React from "react";
+import DeleteDataFromFirebase from "../helper/DeleteDataFromFirebase";
 
 export default function MyFavoriteRecipes(props) {
   console.log("fridge", props.fridge);
@@ -8,12 +9,16 @@ export default function MyFavoriteRecipes(props) {
     <div>
       <button>Favorite recipes</button>
       <div>
+        
         {props.recipe.map((data, index) => {
+          console.log("data", data);
             return (
             <div key={index}>
               <div className="favorite_recipes">
                 <div>{data.name}</div>
-                <button>X</button>
+                <button onClick={() => {
+                  DeleteDataFromFirebase('recipe', data); 
+                }}>X</button>   
               </div>
               <div className="favorite_recipes">
               <div>{data.image}</div>
