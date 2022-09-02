@@ -25,6 +25,10 @@ export default function IngredientsList() {
   useEffect(() => {
     const fetchData = async () => {
       const itemListApi = await IngredientsList.get(inputValue);
+      // const itemListApi = [
+      //   { name: 'test1', image: 'image' },
+      //   { name: 'test2', image: 'image' },
+      // ];
       setSearchIngredientsArray(itemListApi);
     };
     fetchData();
