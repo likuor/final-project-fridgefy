@@ -9,8 +9,10 @@ import ShowDataFromFirebase from "../helper/ShowDataFromFirebase";
 import { useState } from "react";
 
 export default function RecipesPage() {
-  const [fridge, setFridge] = useState([]);
-  const [recipe, setRecipe] = useState([]);
+  // const [fridge, setFridge] = useState([]);
+  // const [recipe, setRecipe] = useState([]);
+
+  
 
   // ShowDataFromFirebase('fridge', setFridge);
   // ShowDataFromFirebase('recipe', setRecipe);
@@ -24,12 +26,7 @@ export default function RecipesPage() {
         <div className="recipespage_container">
           <IngredientsList />
           <AllRecipes />
-          <MyRecipes
-            setFridge={setFridge}
-            fridge={fridge}
-            setRecipe={setRecipe}
-            recipe={recipe}
-          />
+          <MyRecipes />
         </div>
       </StyleRecipesPage>
     </UserDataProvider>
