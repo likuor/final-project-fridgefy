@@ -1,14 +1,8 @@
-import React from 'react';
-import Navbar from './pages/Navbar';
-import Home from './pages/Home';
-import ShoppingList from './pages/ShoppingList';
-import { useState } from 'react';
-import ShowDataFromFirebase from './helper/ShowDataFromFirebase';
-import AddDataToFirebase from './helper/AddDataToFirebase';
-import MyRecipes from './pages/MyRecipes';
+import React from "react";
+import Home from "./pages/Home";
+import AddDataToFirebase from "./helper/AddDataToFirebase";
 
 function App() {
-
   return (
     <div>
       <Home />
