@@ -14,8 +14,6 @@ export default function ShoppingListPage() {
 
   ShowDataFromFirebase("fridge", setFridge);
   ShowDataFromFirebase("recipe", setRecipe);
-  console.log("fridge", fridge);
-  console.log("recipe", recipe);
 
   return (
     <UserDataProvider>

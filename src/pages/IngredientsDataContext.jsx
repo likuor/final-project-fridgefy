@@ -45,6 +45,7 @@ const IngredientsDataProvider = ({ children }) => {
 
   const removeUserIngredient = async (data) => {
     await DeleteDataFromFirebase("fridge", data);
+    console.log("check data", data);
     const filteredArray = userIngredientsList.filter((itemList) => {
       return itemList.dbId !== data.dbId;
     });
