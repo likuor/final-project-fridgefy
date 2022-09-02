@@ -1,11 +1,4 @@
-import React from "react";
 
-const ShoppingList = () => {
-  return (
-    <div>
-      <div>Shopping items</div>
-    </div>
-  );
-};
-
+const ShoppingList = (props) => {
+}
 export default ShoppingList;

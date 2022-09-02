@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 function HomeSearch() {
 
     const [HomeSearch, setHomeSearch] = useState([]);
+    // const [filterSearch, setfilterSearch] = useState("food");
 
     useEffect(() => {
         getHomeSearch();
@@ -24,14 +25,14 @@ function HomeSearch() {
         }
     };
 //filter
-    function filter() {
-        return (
-            <div className="filter">
-                <input type="text" placeholder="search recipe" className="filter-recipe"/>
-                
-            </div>
-        )
-    }
+    // useEffect(() => { 
+    //     getHomeSearch(filterSearch);
+    //     return (
+    //         <div className="filter">
+    //             <input type="text" placeholder="search recipe" className="filter-recipe"/> 
+    //         </div>
+    //     )
+    // });
 //recipes & images
     return <div>
         {HomeSearch.map((recipe) => {
@@ -40,6 +41,8 @@ function HomeSearch() {
                     <div>
                         <p>{recipe.title}</p>
                         <img src={recipe.image} alt={recipe.title}></img>
+                        <button type="button">Add</button>
+                        <button type="button">More</button>
                     </div>
                 </div>   
             );
