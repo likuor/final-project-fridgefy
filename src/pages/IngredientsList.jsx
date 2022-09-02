@@ -6,15 +6,16 @@ import ShowDataFromFirebase from '../helper/ShowDataFromFirebase';
 import { database, auth } from '../firebase/FirebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { IngredientsDataContext } from './IngredientsDataContext';
+import DeleteDataFromFirebase from '../helper/DeleteDataFromFirebase';
 
 export default function IngredientsList() {
   const inputRef = useRef(null);
-  const { dispatch } = useContext(IngredientsDataContext);
   const { state } = useContext(IngredientsDataContext);
   const [inputValue, setInputValue] = useState('');
   const [searchIngredientsArray, setSearchIngredientsArray] = useState([]);
   const [userIngredientsArray, setUserIngredientsArray] = useState([]);
   const [user] = useAuthState(auth);
+  const { dispatch } = useContext(IngredientsDataContext);
 
   const IngredientsList = {
     get: async (ingredients) => {
@@ -25,11 +26,15 @@ export default function IngredientsList() {
     },
   };
 
-  ShowDataFromFirebase('Ingredients', setUserIngredientsArray);
+  ShowDataFromFirebase('fridge', setUserIngredientsArray);
 
   useEffect(() => {
     const fetchData = async () => {
       const itemListApi = await IngredientsList.get(inputValue);
+      // const itemListApi = [
+      //   { name: 'test1', image: 'image' },
+      //   { name: 'test2', image: 'image' },
+      // ];
       setSearchIngredientsArray(itemListApi);
     };
     fetchData();
@@ -41,7 +46,7 @@ export default function IngredientsList() {
   };
 
   const onClickIngredients = async (data) => {
-    const nameCollection = collection(database, 'Ingredients');
+    const nameCollection = collection(database, 'fridge');
     const newIngredient = {
       image: `${data.name}.jpg`,
       name: data.name,
@@ -56,20 +61,7 @@ export default function IngredientsList() {
       { ...newIngredient, dbId: documentIngredients.id },
     ]);
   };
-
-  const deleteItem = async (item) => {
-    console.log('item', item);
-    console.log('check item', userIngredientsArray);
-    try {
-      await deleteDoc(doc(database, 'Ingredients', item.dbId));
-      const filteredArray = userIngredientsArray.filter(
-        (itemList) => itemList.dbId !== item.dbId
-      );
-      setUserIngredientsArray(filteredArray);
-    } catch (err) {
-      console.log('err', err);
-    }
-  };
+  console.log('here', userIngredientsArray);
 
   const userIngredientsDataList = (array) => {
     if (user) {
@@ -80,7 +72,14 @@ export default function IngredientsList() {
               <h2>{item.name}</h2>
               <button
                 className='ingredients_list_button'
-                onClick={() => deleteItem(item)}
+                // onClick={() => deleteItem(item)}
+                onClick={() => {
+                  DeleteDataFromFirebase('fridge', item);
+                  const filteredArray = userIngredientsArray.filter(
+                    (itemList) => itemList.dbId !== item.dbId
+                  );
+                  setUserIngredientsArray(filteredArray);
+                }}
               >
                 X
               </button>
@@ -99,6 +98,19 @@ export default function IngredientsList() {
             <div
               value={data.name}
               onClick={() => onClickIngredients(data)}
+              // onClick={() => {
+              //   setSearchIngredientsArray([]);
+              //   setUserIngredientsArray([
+              //     ...userIngredientsArray,
+              //     {
+              //       ...AddDataToFirebase('fridge', user.uid, data),
+              //     },
+              //   ]);
+              // }}
+              // onClick={() => onClickIngredients(data)}
+              // onClick={() =>
+              //   dispatch({ type: "addIngredients", payload: data.name })
+              // }
               key={index}
             >
               {data.name}
