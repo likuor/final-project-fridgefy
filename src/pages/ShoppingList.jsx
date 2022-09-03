@@ -61,17 +61,12 @@ const ShoppingList = () => {
 
   const createshoppingList = (array) => {
     return array.map((data, index) => {
-      return (
-        <li key={index}>
-          <img src="/images/delete.png" alt="test-" />
-          {data}
-        </li>
-      );
+      return <li key={index}>{data}</li>;
     });
   };
 
   return (
-    <div class="sides_container" id="left-bar">
+    <div classname="sides_container" id="left-bar">
       <div>
         <Link to={`/recipesPage/`}>Recipes page</Link>
         <Link to={`/shoppingListPage/`}>Shopping list page</Link>
