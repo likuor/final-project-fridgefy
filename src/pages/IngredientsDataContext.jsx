@@ -1,9 +1,10 @@
 import React, { createContext, useState } from "react";
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
-import { database, auth } from "../firebase/FirebaseConfig";
+import { auth } from "../firebase/FirebaseConfig";
 import DeleteDataFromFirebase from "../helper/DeleteDataFromFirebase";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import AddDataToFirebase from "../helper/AddDataToFirebase";
+import ShowDataFromFirebase from "../helper/ShowDataFromFirebase";
 
 export const IngredientsDataContext = createContext();
 
@@ -12,40 +13,21 @@ const IngredientsDataProvider = ({ children }) => {
   const [user] = useAuthState(auth);
 
   const loadUserIngredients = async (user) => {
-    if (user) {
-      const allDataInCollection = collection(database, "fridge");
-      const filterdDataByUser = query(
-        allDataInCollection,
-        where("userId", "==", user.uid)
-      );
-      const snapshot = await getDocs(filterdDataByUser);
-      const data = snapshot.docs.map((doc) => ({
-        ...doc.data(),
-        dbId: doc.id,
-      }));
-      setUserIngredientsList(data);
-    } else {
-      setUserIngredientsList([]);
-    }
+    await ShowDataFromFirebase("fridge", setUserIngredientsList, user);
   };
 
   const addUserIngredient = async (data) => {
-    const nameCollection = collection(database, "fridge");
-    const newIngredient = {
+    const setData = {
       image: `${data.name}.jpg`,
       name: data.name,
       userId: user.uid,
     };
-    const documentIngredients = await addDoc(nameCollection, newIngredient);
-    setUserIngredientsList([
-      ...userIngredientsList,
-      { ...newIngredient, dbId: documentIngredients.id },
-    ]);
+    const newData = await AddDataToFirebase("fridge", setData);
+    setUserIngredientsList([...userIngredientsList, newData]);
   };
 
   const removeUserIngredient = async (data) => {
     await DeleteDataFromFirebase("fridge", data);
-    console.log("check data", data);
     const filteredArray = userIngredientsList.filter((itemList) => {
       return itemList.dbId !== data.dbId;
     });
