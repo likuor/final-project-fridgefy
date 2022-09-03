@@ -1,13 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import ShowDataFromFirebase from '../helper/ShowDataFromFirebase';
+import DeleteDataFromFirebase from '../helper/DeleteDataFromFirebase';
+import { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase/FirebaseConfig';
 
-export default function MyRecipes(props) {
-  // console.log("fridge", props.fridge);
-  // console.log("recipe", props.recipe);
+export default function MyRecipes() {
+  const [user] = useAuthState(auth);
+  const [recipe, setRecipe] = useState([]);
 
-  // ShowDataFromFirebase("fridge", props.setFridge);
-  // ShowDataFromFirebase("recipe", props.setRecipe);
+  const loadUserRecipe = async (user) => {
+    await ShowDataFromFirebase('recipe', setRecipe, user);
+  };
+
+  const removeUserRecipe = async (data) => {
+    await DeleteDataFromFirebase('recipe', data);
+    const filteredArray = recipe.filter((itemList) => {
+      return itemList.dbId !== data.dbId;
+    });
+    setRecipe(filteredArray);
+  };
+
+  useEffect(() => {
+    loadUserRecipe(user);
+  }, [user]);
 
   return (
     <StyleLeftBar>
@@ -23,14 +41,17 @@ export default function MyRecipes(props) {
           </div>
           <div>
             <ul>
-              {props.recipe.map((data, index) => {
+              {recipe.map((data, index) => {
                 return (
                   <div key={index}>
-                    <li>
-                      {data.name}
-                      {data.image}
-                    </li>
-                    <button>X</button>
+                    <li>{data.name}</li>
+                    <button
+                      onClick={() => {
+                        removeUserRecipe(data);
+                      }}
+                    >
+                      X
+                    </button>
                   </div>
                 );
               })}

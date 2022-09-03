@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import HomeSearch from './HomeSearch';
 
 export default function AllRecipes() {
   return (
@@ -8,64 +9,7 @@ export default function AllRecipes() {
         <div className='middle-container'>
           <input type='text' placeholder='search recipe' />
           <div className='filter-recipe'>filter</div>
-
-          <div className='grid-container'>
-            <div className='grid-item'>
-              <div className='recipe-image'>
-                <img
-                  src='https://www.comidaereceitas.com.br/wp-content/uploads/2007/11/Pastel_feiraaoo.jpg'
-                  alt=''
-                />
-              </div>
-              <p>name of the recipe</p>
-              <div className='recipe-info'>
-                <button className='styled-button'>more</button>
-                <button className='styled-button'>add</button>
-              </div>
-            </div>
-
-            <div className='grid-item'>
-              <div className='recipe-image'>
-                <img
-                  src='https://assets.bonappetit.com/photos/60649584e6d8f20970dcf469/1:1/w_2560%2Cc_limit/Go-Live-Pad-See-Ew-new3.jpg'
-                  alt=''
-                />
-              </div>
-              <p>name of the recipe</p>
-              <div className='recipe-info'>
-                <button className='styled-button'>more</button>
-                <button className='styled-button'>add</button>
-              </div>
-            </div>
-
-            <div className='grid-item'>
-              <div className='recipe-image'>
-                <img
-                  src='https://www.comidaereceitas.com.br/wp-content/uploads/2007/11/Pastel_feiraaoo.jpg'
-                  alt=''
-                />
-              </div>
-              <p>name of the recipe</p>
-              <div className='recipe-info'>
-                <button className='styled-button'>more</button>
-                <button className='styled-button'>add</button>
-              </div>
-            </div>
-
-            <div className='grid-item'>
-              <div className='recipe-image'>
-                <img
-                  src='https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/aperol-spritz-recipe-1628758400.jpg'
-                  alt=''
-                />
-              </div>
-              <p>name of the recipe</p>
-              <div className='recipe-info'>
-                <button className='styled-button'>more</button>
-                <button className='styled-button'>add</button>
-              </div>
-            </div>
-          </div>
+          <HomeSearch />
         </div>
       </div>
     </StyleAllRecipes>
