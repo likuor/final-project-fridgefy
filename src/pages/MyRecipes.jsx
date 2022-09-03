@@ -44,7 +44,10 @@ export default function MyRecipes() {
               {recipe.map((data, index) => {
                 return (
                   <div key={index}>
-                    <li>{data.name}</li>
+                    <li>
+                      {data.name}
+                      {data.image}
+                    </li>
                     <button
                       onClick={() => {
                         removeUserRecipe(data);
@@ -74,7 +77,7 @@ const StyleLeftBar = styled.div`
 
   .sides_container {
     background-color: #7eebcc;
-    width: 20vw;
+    width: 18vw;
     height: 50vw;
     border-radius: 10px;
     padding: 15px;
