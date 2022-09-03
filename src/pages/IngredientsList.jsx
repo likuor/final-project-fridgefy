@@ -65,17 +65,26 @@ export default function IngredientsList() {
 
   return (
     <StyleIngredientsContainer>
-      <div>
-        <h2>My Fridge</h2>
-        <form onSubmit={handleSubmit}>
-          <input name='name' type='text' placeholder='Name' ref={inputRef} />
-          <button>Search</button>
-        </form>
-        <div className='ingredientsList_container'>
-          {userFavoriteIngredientsList(searchIngredientsArray)}
-        </div>
-        <div className='ingredients_list'>
-          {userIngredientsDataList(userIngredientsList)}
+      <div className='container'>
+        <div className='sides_container'>
+          <div>
+            <h2>My Fridge</h2>
+            <form onSubmit={handleSubmit}>
+              <input
+                name='name'
+                type='text'
+                placeholder='Ingredient'
+                ref={inputRef}
+              />
+              <button className='styled-button'>Search</button>
+            </form>
+            <div className='ingredientsList_container'>
+              {userFavoriteIngredientsList(searchIngredientsArray)}
+            </div>
+            <div className='ingredients_list'>
+              {userIngredientsDataList(userIngredientsList)}
+            </div>
+          </div>
         </div>
       </div>
     </StyleIngredientsContainer>
@@ -101,5 +110,41 @@ const StyleIngredientsContainer = styled.div`
   .ingredients_list_button {
     margin-left: 3rem;
     width: 2rem;
+  }
+
+  .container {
+    margin-top: 15px;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    display: flex;
+  }
+
+  .sides_container {
+    background-color: #7eebcc;
+    width: 18vw;
+    height: 100vw;
+    border-radius: 10px;
+    padding: 15px;
+    color: whitesmoke;
+    font-size: 25px;
+  }
+
+  h2 {
+    margin: 10px;
+  }
+
+  .styled-button {
+    border-radius: 5px;
+    border: none;
+    height: fit-content;
+    width: fit-content;
+    padding: 5px 5px;
+    background-color: #63b8a0;
+    color: whitesmoke;
+    margin-left: 10px;
+  }
+
+  .styled-button:hover {
+    background-color: #559c88;
+    cursor: pointer;
   }
 `;
