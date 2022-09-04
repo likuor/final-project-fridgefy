@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import IngredientsList from './IngredientsList';
-import MyFavoriteRecipes from './MyFavoriteRecipes';
-import ShoppingList from './ShoppingList';
-import UserDataProvider from './UserDataContext';
+import IngredientsList from '../components/ingredients/IngredientsList';
+import MyFavoriteRecipes from '../components/recipes/MyFavoriteRecipes';
+import ShoppingList from '../components/ingredients/ShoppingList';
+import UserDataProvider from '../context/UserDataContext';
 import { useState } from 'react';
-import Navbar from './Navbar';
+import Navbar from '../components/Navbar';
 
 export default function ShoppingListPage() {
   const [recipe, setRecipe] = useState([]);
