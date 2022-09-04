@@ -7,7 +7,7 @@ import img from '../images/heroPageBackground.jpg';
 export default function HeroPage() {
   return (
     <StyleHeroPage>
-      <body className='hero-page'>
+      <div className='hero-page'>
         <div className='login-container'>
           <div id='logo' className='font'>
             Fridgefy
@@ -20,7 +20,7 @@ export default function HeroPage() {
             continue as a guest
           </Link>
         </div>
-      </body>
+      </div>
     </StyleHeroPage>
   );
 }

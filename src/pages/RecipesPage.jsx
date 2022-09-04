@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import AllRecipes from './AllRecipes';
-import IngredientsList from './IngredientsList';
-import MyRecipes from './MyRecipes';
-import Navbar from './Navbar';
-import UserDataProvider from './UserDataContext';
+import AllRecipes from '../components/recipes/AllRecipes';
+import IngredientsList from '../components/ingredients/IngredientsList';
+import MyRecipes from '../components/recipes/MyRecipes';
+import Navbar from '../components/Navbar';
+import UserDataProvider from '../context/UserDataContext';
 
 export default function RecipesPage() {
   return (

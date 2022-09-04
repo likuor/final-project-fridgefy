@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import ShowDataFromFirebase from '../helper/ShowDataFromFirebase';
-import DeleteDataFromFirebase from '../helper/DeleteDataFromFirebase';
+import ShowDataFromFirebase from '../../helper/ShowDataFromFirebase';
+import DeleteDataFromFirebase from '../../helper/DeleteDataFromFirebase';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../firebase/FirebaseConfig';
+import { auth } from '../../firebase/FirebaseConfig';
 
 export default function MyRecipes() {
   const [user] = useAuthState(auth);

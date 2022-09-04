@@ -18,10 +18,11 @@ const IngredientsDataProvider = ({ children }) => {
 
   const addUserIngredient = async (data) => {
     const setData = {
-      image: `${data.name}.jpg`,
+      image: `https://spoonacular.com/cdn/ingredients_100x100/${data.name}.jpg`,
       name: data.name,
       userId: user.uid,
     };
+    console.log('set data image', setData.image);
     const newData = await AddDataToFirebase('fridge', setData);
     setUserIngredientsList([...userIngredientsList, newData]);
   };
@@ -42,6 +43,7 @@ const IngredientsDataProvider = ({ children }) => {
     <IngredientsDataContext.Provider
       value={{
         userIngredientsList,
+        setUserIngredientsList,
         loadUserIngredients,
         addUserIngredient,
         removeUserIngredient,

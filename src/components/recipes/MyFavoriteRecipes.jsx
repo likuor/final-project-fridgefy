@@ -1,9 +1,9 @@
 import React from 'react';
-import DeleteDataFromFirebase from '../helper/DeleteDataFromFirebase';
+import DeleteDataFromFirebase from '../../helper/DeleteDataFromFirebase';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../firebase/FirebaseConfig';
-import ShowDataFromFirebase from '../helper/ShowDataFromFirebase';
+import { auth } from '../../firebase/FirebaseConfig';
+import ShowDataFromFirebase from '../../helper/ShowDataFromFirebase';
 import styled from 'styled-components';
 
 export default function MyFavoriteRecipes() {
