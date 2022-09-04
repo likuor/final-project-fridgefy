@@ -1,10 +1,10 @@
-import React, { createContext, useState } from 'react';
-import { auth } from '../firebase/FirebaseConfig';
-import DeleteDataFromFirebase from '../helper/DeleteDataFromFirebase';
-import { useEffect } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import AddDataToFirebase from '../helper/AddDataToFirebase';
-import ShowDataFromFirebase from '../helper/ShowDataFromFirebase';
+import React, { createContext, useState } from "react";
+import { auth } from "../firebase/FirebaseConfig";
+import DeleteDataFromFirebase from "../helper/DeleteDataFromFirebase";
+import { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import AddDataToFirebase from "../helper/AddDataToFirebase";
+import ShowDataFromFirebase from "../helper/ShowDataFromFirebase";
 
 export const IngredientsDataContext = createContext();
 
@@ -13,21 +13,22 @@ const IngredientsDataProvider = ({ children }) => {
   const [user] = useAuthState(auth);
 
   const loadUserIngredients = async (user) => {
-    await ShowDataFromFirebase('fridge', setUserIngredientsList, user);
+    await ShowDataFromFirebase("fridge", setUserIngredientsList, user);
   };
 
   const addUserIngredient = async (data) => {
     const setData = {
-      image: `${data.name}.jpg`,
+      image: `https://spoonacular.com/cdn/ingredients_100x100/${data.name}.jpg`,
       name: data.name,
       userId: user.uid,
     };
-    const newData = await AddDataToFirebase('fridge', setData);
+    console.log("set data image", setData.image);
+    const newData = await AddDataToFirebase("fridge", setData);
     setUserIngredientsList([...userIngredientsList, newData]);
   };
 
   const removeUserIngredient = async (data) => {
-    await DeleteDataFromFirebase('fridge', data);
+    await DeleteDataFromFirebase("fridge", data);
     const filteredArray = userIngredientsList.filter((itemList) => {
       return itemList.dbId !== data.dbId;
     });
@@ -42,6 +43,7 @@ const IngredientsDataProvider = ({ children }) => {
     <IngredientsDataContext.Provider
       value={{
         userIngredientsList,
+        setUserIngredientsList,
         loadUserIngredients,
         addUserIngredient,
         removeUserIngredient,

@@ -1,22 +1,25 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
-import { IngredientsDataContext } from './IngredientsDataContext';
-import UserIngredientItem from './UserIngredientItem';
+import React, { useEffect, useRef, useState, useContext } from "react";
+import axios from "axios";
+import styled from "styled-components";
+import { IngredientsDataContext } from "./IngredientsDataContext";
+import UserIngredientItem from "./UserIngredientItem";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase/FirebaseConfig";
 
 export default function IngredientsList() {
   const inputRef = useRef(null);
+  const [user] = useAuthState(auth);
 
   const { userIngredientsList, addUserIngredient } = useContext(
     IngredientsDataContext
   );
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [searchIngredientsArray, setSearchIngredientsArray] = useState([]);
 
   const IngredientsList = {
     get: async (ingredients) => {
       const response = await axios.get(
-        `https://api.spoonacular.com/food/ingredients/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${inputValue}&number=10`
+        `https://api.spoonacular.com/food/ingredients/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${inputValue}&number=5`
       );
       return response.data.results;
     },
@@ -31,8 +34,12 @@ export default function IngredientsList() {
   }, [inputValue]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setInputValue(inputRef.current.value);
+    if (user) {
+      e.preventDefault();
+      setInputValue(inputRef.current.value);
+    } else {
+      alert("Please log in or create new account");
+    }
   };
 
   const userIngredientsDataList = (array) => {
@@ -46,6 +53,7 @@ export default function IngredientsList() {
       return array.map((data, index) => {
         return (
           <div
+            className="ingredientsList_option"
             onClick={() => {
               addUserIngredient(data);
               setSearchIngredientsArray([]);
@@ -61,23 +69,23 @@ export default function IngredientsList() {
 
   return (
     <StyleIngredientsContainer>
-      <div className='container'>
-        <div className='sides_container'>
+      <div className="container">
+        <div className="sides_container">
           <div>
             <h2>My Fridge</h2>
             <form onSubmit={handleSubmit}>
               <input
-                name='name'
-                type='text'
-                placeholder='Ingredient'
+                name="name"
+                type="text"
+                placeholder="Ingredient"
                 ref={inputRef}
               />
-              <button className='styled-button'>Search</button>
+              <button className="styled-button">Search</button>
             </form>
-            <div className='ingredientsList_container'>
+            <div className="ingredientsList_container">
               {userFavoriteIngredientsList(searchIngredientsArray)}
             </div>
-            <div className='ingredients_list'>
+            <div className="ingredients_list">
               {userIngredientsDataList(userIngredientsList)}
             </div>
           </div>
@@ -100,17 +108,33 @@ const StyleIngredientsContainer = styled.div`
     position: relative;
   }
 
+  .ingredientsList_option {
+    cursor: pointer;
+  }
+
+  .ingredients_list_h2 {
+    margin: 0%;
+    font-size: 1.5rem;
+  }
+
+  .ingredients_list_image {
+    width: 50px;
+    height: 50px;
+    margin-left: 1rem;
+  }
+
   .ingredients_list_container {
     display: flex;
+    align-items: center;
   }
   .ingredients_list_button {
-    margin-left: 3rem;
+    margin-left: 1.5rem;
     width: 2rem;
   }
 
   .container {
     margin-top: 15px;
-    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-family: "Yanone Kaffeesatz", sans-serif;
     display: flex;
   }
 
