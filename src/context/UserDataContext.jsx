@@ -18,7 +18,6 @@ const reducer = (state, action) => {
 const UserDataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
     userId: "",
-    userEmail: "",
     userName: "",
   });
 

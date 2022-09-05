@@ -1,0 +1,184 @@
+* {
+  box-sizing: border-box;
+}
+
+header {
+  background-color: #63b8a0;
+  text-align: left;
+  height: 65px;
+  border-radius: 10px;
+  display: flex;
+  font-family: 'Pacifico', cursive;
+  color: whitesmoke;
+  font-size: 30px;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.container {
+  margin-top: 15px;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  display: flex;
+}
+
+.sides_container {
+  background-color: #7eebcc;
+  width: 20vw;
+  height: 100vw;
+  border-radius: 10px;
+  padding: 15px;
+  color: whitesmoke;
+  font-size: 25px;
+}
+
+h2 {
+  margin: 10px;
+}
+
+.sides_container img {
+  height: 15px;
+}
+
+.middle-container {
+  width: 60vw;
+  background-color: #c8eee3;
+  border-radius: 10px;
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 15px;
+}
+
+.filter-recipe {
+  width: 80%;
+  height: 10%;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+input {
+  border: none;
+  border-radius: 5px;
+  height: 20px;
+}
+
+.styled-button {
+  border-radius: 5px;
+  border: none;
+  height: 20px;
+  background-color: #63b8a0;
+  color: whitesmoke;
+}
+
+.styled-button:hover {
+  background-color: #559c88;
+  cursor: pointer;
+}
+
+main button:focus {
+  border: none;
+}
+
+.list {
+  display: flex;
+  justify-content: space-between;
+}
+.grid-container {
+  display: grid;
+  gap: 0px;
+  grid-template-columns: 130px 130px 130px 130px;
+  grid-template-rows: 130px 130px 130px 130px;
+  margin-left: 15px;
+  margin-bottom: 20px;
+  gap: 10px;
+  margin-top: 5%;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 30px;
+  text-align: center;
+  height: 130px;
+  width: 130px;
+}
+
+.recipe-image {
+  width: 100%;
+  height: 60%;
+  overflow: hidden;
+}
+
+.recipe-image img {
+  width: 100%;
+  height: 100%;
+}
+
+.recipe-info {
+  margin-top: 10px;
+}
+
+/* hero page style*/
+
+.hero-page {
+  height: 50vw;
+  width: 100vw;
+  background: url(/images/heroPageBackground.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.login-container {
+  height: 60%;
+  width: 60%;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  margin: 10% auto;
+  box-shadow: 1px 1px 5px 5px #63b8a034;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.username-container {
+  margin: 40px auto;
+}
+
+.username-container > input {
+  border: #63b8a07a solid 1px;
+}
+
+#logo {
+  font-size: 50px;
+  height: fit-content;
+  width: fit-content;
+}
+
+.font {
+  color: #63b8a0;
+  font-family: 'Pacifico', cursive;
+  font-size: 30px;
+}
+
+.guest {
+  text-decoration: underline;
+  color: #559c88;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+}
+
+#hero-page-button {
+  height: 50px;
+  width: 100px;
+  font-size: 25px;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  letter-spacing: 1px;
+}
+
+.guest:hover {
+  cursor: pointer;
+}
